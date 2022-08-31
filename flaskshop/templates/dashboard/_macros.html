@@ -157,17 +157,12 @@
     <br />
     <div class="input-group">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="exampleInputFile">
+            <input type="file" class="custom-file-input" id="exampleInputFile"  multiple>
             <label class="custom-file-label" for="exampleInputFile">Update New Image</label>
-        </div>
-        <div class="input-group-append">
-            <!-- TODO ajax upload image -->
-            <span class="input-group-text" id="">Upload</span>
         </div>
     </div>
 </div>
 {% endmacro %}
-
 
 {% macro render_attribute_field(field, attributes) %}
 <div class="form-group">

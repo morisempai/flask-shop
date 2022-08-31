@@ -115,7 +115,7 @@ class Product(Model):
 
     def update_images(self, new_images):
         origin_ids = (
-            ProductImage.query.with_entities(ProductImage.product_id)
+            ProductImage.query.with_entities(ProductImage.id)
             .filter_by(product_id=self.id)
             .all()
         )
@@ -123,6 +123,8 @@ class Product(Model):
         new_images = set(int(i) for i in new_images)
         need_del = origin_ids - new_images
         need_add = new_images - origin_ids
+        print("origin_ids", origin_ids)
+        print("new_images", new_images)
         for id in need_del:
             ProductImage.get_by_id(id).delete(commit=False)
         for id in need_add:
@@ -631,6 +633,10 @@ class ProductImage(Model):
         image_file = current_app.config["STATIC_DIR"] / target.image
         if image_file.exists():
             image_file.unlink()
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class Collection(Model):

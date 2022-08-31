@@ -1,3 +1,4 @@
+from flask import jsonify, request, current_app
 from flaskshop.account.models import User
 from flaskshop.product.models import (
     ProductType,
@@ -6,13 +7,14 @@ from flaskshop.product.models import (
     ProductAttribute,
     Product,
     ProductVariant,
+    ProductImage,
 )
 from flaskshop.discount.models import Sale, Voucher
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.public.models import Page, MenuItem
 
 from .utils import ApiResult, wrap_partial
-
+import uuid
 
 def item_del(cls, id):
     try:
@@ -35,19 +37,3 @@ product_type_del = wrap_partial(item_del, ProductType)
 dashboard_menu_del = wrap_partial(item_del, DashboardMenu)
 site_page_del = wrap_partial(item_del, Page)
 site_menu_del = wrap_partial(item_del, MenuItem)
-
-# Put file in upload [TOD O]
-def upload_product_img():
-    if 'file' not in request.files:
-                return "No files"
-            file = request.files['file']
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return redirect(url_for('download_file', name=filename))
-        return

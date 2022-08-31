@@ -60,3 +60,4 @@ migrations/
 /venv/
 /women_shop_empty.backup
 /.flaskenv
+/flaskshop/static/upload/*

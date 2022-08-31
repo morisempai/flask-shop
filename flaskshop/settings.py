@@ -53,8 +53,7 @@ class Config:
     UPLOAD_FOLDER = "upload"
     UPLOAD_DIR = STATIC_DIR / UPLOAD_FOLDER
     DASHBOARD_TEMPLATE_FOLDER = APP_DIR / "templates" / "dashboard"
-    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'static/placeholders')
-
+    # UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'static/placeholders')
     PURCHASE_URI = os.getenv('PURCHASE_URI', '')
 
     BCRYPT_LOG_ROUNDS = 13

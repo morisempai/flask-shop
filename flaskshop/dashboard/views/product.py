@@ -1,6 +1,7 @@
 from datetime import datetime
-
-from flask import request, render_template, redirect, url_for, current_app
+import uuid
+import os
+from flask import request, render_template, redirect, url_for, current_app, jsonify
 from flask_babel import lazy_gettext, gettext
 from flaskshop.product.models import (
     ProductAttribute,
@@ -10,6 +11,7 @@ from flaskshop.product.models import (
     Category,
     ProductType,
     ProductVariant,
+    ProductImage,
 )
 from flaskshop.dashboard.forms import (
     AttributeForm,
@@ -230,12 +232,17 @@ def product_detail(id):
 
 
 def _save_product(product, form):
-    product.update_images(form.images.data)
+    imgs = form.images
     product.update_attributes(form.attributes.data)
     del form.images
     del form.attributes
     form.populate_obj(product)
     product.save()
+    for img_id in imgs.data:
+        img = ProductImage.get_by_id(img_id)
+        img.product_id = product.id
+        img.save()
+    product.update_images(imgs.data) 
     return product
 
 
@@ -243,6 +250,7 @@ def product_edit(id):
     product = Product.get_by_id(id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
+        print(form.images.data)
         _save_product(product, form)
         return redirect(url_for("dashboard.product_detail", id=product.id))
     categories = Category.query.all()
@@ -300,3 +308,23 @@ def variant_manage(id=None):
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
     return render_template("product/variant.html", form=form)
+
+
+def upload_img(id=None):
+    res = ""
+    print(id)
+    files = request.files.getlist("file")
+    for file in files:
+        product_img = ProductImage()
+        product_img.product_id = id
+        filename = str(uuid.uuid4())
+        file.save(os.path.join(current_app.config["UPLOAD_DIR"], filename))
+        product_img.image = (
+                current_app.config["UPLOAD_FOLDER"] + "/" + filename
+            )
+        product_img.save()
+        res =  product_img.id
+        print(res)
+    return jsonify({"db_id": res})
+  
+

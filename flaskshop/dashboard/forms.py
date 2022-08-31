@@ -17,6 +17,7 @@ from wtforms import (
     FloatField,
     DecimalField,
     DateTimeField,
+    MultipleFileField,
 )
 from wtforms.validators import DataRequired, optional, NumberRange, Length
 
@@ -142,7 +143,8 @@ class ProductForm(FlaskForm):
     review_count = IntegerField(lazy_gettext('Review Count'), default=0)
     category_id = SelectField(lazy_gettext('Category'))
     description = TextAreaField(lazy_gettext('Description'))
-    images = FieldList(StringField(lazy_gettext('Images')))  # TODO Add max image count
+    # images = FieldList(StringField(lazy_gettext('Images')))  # TODO Add max image count
+    images = FieldList(StringField(lazy_gettext('Images_new')))
     attributes = FieldList( SelectField(lazy_gettext('Atributes')))
     submit = SubmitField(lazy_gettext('Submit'))
 

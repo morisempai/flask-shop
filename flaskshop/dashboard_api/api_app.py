@@ -18,7 +18,11 @@ from .views import (
     dashboard_menu_del,
     site_page_del,
     site_menu_del,
+<<<<<<< HEAD
     upload_img,
+=======
+    upload_product_img,
+>>>>>>> 576877666cbfba98d7fa9063e1374bdeba801198
 )
 
 
@@ -98,6 +102,11 @@ dashboard_api.add_url_rule(
     "/site_menus/<int:id>/delete", view_func=site_menu_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
+<<<<<<< HEAD
     "/products/<int:id>/edit/upload_img", view_func=upload_img, methods=["POST"]
 )
 
+=======
+    "/dashboard/products/<int:id>/edit", view_func=upload_product_img, methods=["POST"]
+)
+>>>>>>> 576877666cbfba98d7fa9063e1374bdeba801198

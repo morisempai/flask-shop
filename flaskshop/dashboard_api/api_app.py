@@ -18,7 +18,6 @@ from .views import (
     dashboard_menu_del,
     site_page_del,
     site_menu_del,
-    upload_product_img,
 )
 
 

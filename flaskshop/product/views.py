@@ -25,8 +25,9 @@ def product_add_to_cart(id):
     """ this method return to the show method and use a form instance for display validater errors"""
     product = Product.get_by_id(id)
     form = AddCartForm(request.form, product=product)
-
+    print(f"variants: {product.variant}")
     if form.validate_on_submit():
+        print(f"quantity data: {form.quantity.data}\nvariant data: {form.variant.data}")
         Cart.add_to_currentuser_cart(form.quantity.data, form.variant.data)
     return show(id, form=form)
 
